@@ -1,0 +1,70 @@
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./introspect.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+model User {
+  uid String @id @default(cuid())
+  habits Habit[]
+  first_name String
+  last_name String
+  user_name String
+  email String
+  password String
+}
+
+model Habit {
+  habit_id String @id @default(cuid())
+  uid String
+  name String
+  frequency_per_week Float
+  description String?
+  start_date DateTime
+  end_date DateTime?
+  status Int
+
+  user User @relation(fields: [uid], references: [uid])
+  reminders Reminder[]
+  habit_reflection HabitReflection[]
+  task Task[]
+}
+
+model Reminder {
+  reminder_id String @id @default(cuid())
+  habit_id String
+  habit Habit @relation(fields: [habit_id], references: [habit_id])
+  reminder_time DateTime
+  alert_time_mins Int
+} 
+
+model HabitReflection {
+  hr_id String @id @default(cuid())
+  habit_id String
+  habit Habit @relation(fields: [habit_id], references: [habit_id])
+  description String
+
+  self_reflections SelfReflection[]
+}
+
+model SelfReflection {
+  sf_id String @id @default(cuid())
+  hr_id String
+  habit_reflection HabitReflection @relation(fields: [hr_id], references: [hr_id])
+  description String
+  date DateTime
+}
+
+model Task {
+  task_id String @id @default(cuid())
+  habit_id String
+  habit Habit @relation(fields: [habit_id], references: [habit_id])
+  checked Int
+  date DateTime
+}
+
