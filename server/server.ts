@@ -51,4 +51,15 @@ app.post("/signup", async (req, res) => {
   return res.send(newUser);
 });
 
+app.post("/signin", async (req, res) => {
+  const findUser = await client.user.findMany({
+    where: { email: req.body.email },
+  });
+  if (!(findUser && findUser.length != 0)) return res.sendStatus(400);
+  return res.sendStatus(200);
+
+  // Password, if wrong, 401
+  // Create Session
+});
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
