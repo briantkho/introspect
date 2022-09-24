@@ -1,3 +1,6 @@
+/**
+ * User type
+ */
 export type User = {
   uid: string;
   first_name: string;
