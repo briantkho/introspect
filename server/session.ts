@@ -30,3 +30,15 @@ export const createSession = (user: User, req: Request): void => {
 
   req.session.user = userSession;
 };
+
+export const getSessionById = (req: Request) => {
+  if (req.sessionID) {
+    return req.sessionID;
+  } else {
+    throw new Error("Session not found");
+  }
+};
+
+export const removeSession = (req: Request): void => {
+  req.session.destroy;
+};
