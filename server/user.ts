@@ -1,7 +1,7 @@
 /**
  * User type
  */
-export type User = {
+export type UserType = {
   uid: string;
   first_name: string;
   last_name: string;

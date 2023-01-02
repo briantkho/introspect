@@ -1,5 +1,5 @@
 import type { Request } from "express";
-import type { User } from "./user";
+import type { UserType } from "./user";
 
 /**
  * Type of a user session
@@ -21,7 +21,7 @@ declare module "express-session" {
  * @param user the user to create a session
  * @param req request to add a session
  */
-export const createSession = (user: User, req: Request): void => {
+export const createSession = (user: UserType, req: Request): void => {
   const userSession: UserSession = {
     uid: user.uid,
     email: user.email,
@@ -31,14 +31,10 @@ export const createSession = (user: User, req: Request): void => {
   req.session.user = userSession;
 };
 
-export const getSessionById = (req: Request) => {
-  if (req.sessionID) {
-    return req.sessionID;
+export const getSession = (req: Request): UserSession => {
+  if (req.session.user) {
+    return req.session.user;
   } else {
-    throw new Error("Session not found");
+    throw new Error("No user found");
   }
-};
-
-export const removeSession = (req: Request): void => {
-  req.session.destroy;
 };

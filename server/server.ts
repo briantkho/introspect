@@ -3,8 +3,9 @@ import { PrismaClient } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 import session from "express-session";
 
-import { createSession } from "./session";
-import type { User } from "./user";
+import { createSession, getSession } from "./session";
+import type { UserType } from "./user";
+import { createHabitValidator } from "./habit/validate";
 
 const client = new PrismaClient();
 
@@ -27,9 +28,8 @@ app.use((req, res, next) => {
 });
 
 app.post("/signup", async (req, res) => {
-  const newUser: User = await client.user.create({
+  const newUser: UserType = await client.user.create({
     data: {
-      uid: uuid(),
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       user_name: req.body.user_name,
@@ -43,17 +43,20 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post("/signin", async (req, res) => {
-  const findUsers: User[] | undefined = await client.user.findMany({
-    where: { email: req.body.email },
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const findUsers: UserType[] | undefined = await client.user.findMany({
+    where: { email: email },
   });
 
   if (!(findUsers && findUsers.length != 0)) return res.sendStatus(400);
   else if (findUsers.length > 1)
-    console.log(`Multiple users with email ${req.body.email} found`);
+    console.log(`Multiple users with email ${email} found`);
 
-  const user: User = findUsers[0];
+  const user: UserType = findUsers[0];
 
-  if (user.password !== req.body.password) return res.sendStatus(401);
+  if (user.password !== password) return res.sendStatus(401);
 
   createSession(user, req);
   return res.sendStatus(200);
@@ -64,6 +67,22 @@ app.post("/signout", (req, res) => {
     if (error) console.log(`Could not destroy session: ${error}`);
     return res.sendStatus(200);
   });
+});
+
+app.post("/addHabit", async (req, res) => {
+  const user = getSession(req);
+  const data = createHabitValidator.safeParse({ ...req.body, uid: user.uid });
+  if (!data.success) return res.status(400).send(data.error);
+
+  const habit = await client.habit.create({
+    data: {
+      ...data.data,
+      start_date: new Date(data.data.start_date),
+      end_date: data.data.end_date ? new Date(data.data.end_date) : null,
+    },
+  });
+
+  return res.send(habit);
 });
 
 app.get("/", (req, res) => res.sendStatus(200));
