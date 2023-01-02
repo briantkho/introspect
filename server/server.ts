@@ -5,7 +5,9 @@ import session from "express-session";
 
 import { createSession, getSession } from "./session";
 import type { UserType } from "./user";
-import { createHabitValidator } from "./habit/validate";
+import { createHabitValidator, editHabitValidator } from "./habit/validate";
+import { z } from "zod";
+import { StatusTypes } from "./habit/habit";
 
 const client = new PrismaClient();
 
@@ -79,6 +81,21 @@ app.post("/addHabit", async (req, res) => {
       ...data.data,
       start_date: new Date(data.data.start_date),
       end_date: data.data.end_date ? new Date(data.data.end_date) : null,
+    },
+  });
+
+  return res.send(habit);
+});
+
+app.post("/updateHabit", async (req, res) => {
+  let { hid, ...data } = req.body;
+
+  const habit = await client.habit.update({
+    where: {
+      habit_id: req.body.hid,
+    },
+    data: {
+      ...data,
     },
   });
 

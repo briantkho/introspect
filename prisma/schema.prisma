@@ -34,6 +34,17 @@ model Habit {
   task               Task[]
 }
 
+model UpdateHabit{
+  habit_id           String @id
+  uid                String
+  name               String?
+  frequency_per_week Float?
+  description        String?
+  start_date         DateTime?
+  end_date           DateTime?
+  status             Int?
+}
+
 model Reminder {
   reminder_id     String @id @default(cuid())
   habit_id        String
