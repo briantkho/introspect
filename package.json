@@ -10,6 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@prisma/client": "^4.8.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
@@ -19,8 +20,11 @@
     "@types/node": "^18.7.6",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.13",
+    "i": "^0.3.7",
     "nodemon": "^2.0.19",
+    "npm": "^9.2.0",
     "postcss": "^8.4.20",
+    "prisma": "^4.8.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
@@ -36,10 +40,8 @@
     "zod": "^3.20.2"
   },
   "dependencies": {
-    "@prisma/client": "^4.2.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
-    "prisma": "^4.2.1",
     "sirv-cli": "^2.0.0",
     "uuid": "^8.3.2"
   }

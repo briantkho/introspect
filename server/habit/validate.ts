@@ -1,11 +1,21 @@
 import { z } from "zod";
-import { CreateHabitType, EditHabitType, HabitTypeProps } from "./habit";
+import {
+  CreateHabitType,
+  EditHabitType,
+  HabitReflectionProps,
+  HabitReflectionType,
+  HabitTypeProps,
+} from "./habit";
 
 export type CreateHabitParams = Omit<
   CreateHabitType,
   typeof HabitTypeProps.hid
 >;
-// export type EditHabitParams = Omit<EditHabitType, typeof HabitTypeProps.hid>;
+
+export type CreateHabitReflectionParams = Omit<
+  HabitReflectionType,
+  typeof HabitReflectionProps.hrid
+>;
 
 export const createHabitValidator: z.ZodType<CreateHabitParams> = z.object({
   [HabitTypeProps.uid]: z.string(),
@@ -27,3 +37,9 @@ export const editHabitValidator: z.ZodType<EditHabitType> = z.object({
   [HabitTypeProps.endDate]: z.string().optional(),
   [HabitTypeProps.status]: z.number().nullable(),
 });
+
+export const createHabitReflectionValidator: z.ZodType<CreateHabitReflectionParams> =
+  z.object({
+    [HabitReflectionProps.hid]: z.string(),
+    [HabitReflectionProps.description]: z.string(),
+  });

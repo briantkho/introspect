@@ -17,6 +17,7 @@ model User {
   email      String @unique
   password   String
   habits     Habit[]
+  journals   Journal[]
 }
 
 model Habit {
@@ -34,17 +35,6 @@ model Habit {
   task               Task[]
 }
 
-model UpdateHabit{
-  habit_id           String @id
-  uid                String
-  name               String?
-  frequency_per_week Float?
-  description        String?
-  start_date         DateTime?
-  end_date           DateTime?
-  status             Int?
-}
-
 model Reminder {
   reminder_id     String @id @default(cuid())
   habit_id        String
@@ -58,23 +48,25 @@ model HabitReflection {
   habit_id         String
   description      String
   habit            Habit @relation(fields: [habit_id], references: [habit_id])
-  self_reflections SelfReflection[]
 }
 
-model SelfReflection {
-  sf_id            String @id @default(cuid())
-  hr_id            String
+model Journal {
+  jid              String @id @default(cuid())
+  uid              String
+  title            String
   description      String
   date             DateTime
-  habit_reflection HabitReflection @relation(fields: [hr_id], references: [hr_id])
+  user             User @relation(fields: [uid], references: [uid])
 }
 
 model Task {
-  task_id  String @id @default(cuid())
-  habit_id String
-  checked  Int
-  date     DateTime
-  habit    Habit @relation(fields: [habit_id], references: [habit_id])
+  task_id       String @id @default(cuid())
+  habit_id      String
+  title         String
+  description   String?
+  checked       Boolean
+  date          DateTime?
+  habit         Habit @relation(fields: [habit_id], references: [habit_id])
 }
 
 

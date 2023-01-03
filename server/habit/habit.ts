@@ -11,6 +11,12 @@ export const HabitTypeProps = {
   status: "status",
 } as const;
 
+export const HabitReflectionProps = {
+  hrid: "hrid",
+  hid: "habit_id",
+  description: "description",
+} as const;
+
 /**
  * Create Habit type
  */
@@ -39,6 +45,9 @@ export type EditHabitType = {
   [HabitTypeProps.status]: Nullable<number>;
 };
 
+/**
+ * Status Type Enum
+ */
 export const StatusTypes = {
   todo: 0,
   inProgress: 1,
@@ -48,8 +57,8 @@ export const StatusTypes = {
 /**
  * Habit reflection type
  */
-export type HabitReflection = {
-  hrid: string;
-  hid: string;
-  description: string;
+export type HabitReflectionType = {
+  [HabitReflectionProps.hrid]: string;
+  [HabitReflectionProps.hid]: string;
+  [HabitReflectionProps.description]: string;
 };

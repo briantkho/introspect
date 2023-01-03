@@ -1,13 +1,15 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import { v4 as uuid } from "uuid";
 import session from "express-session";
 
 import { createSession, getSession } from "./session";
 import type { UserType } from "./user";
-import { createHabitValidator, editHabitValidator } from "./habit/validate";
-import { z } from "zod";
-import { StatusTypes } from "./habit/habit";
+import {
+  createHabitReflectionValidator,
+  createHabitValidator,
+} from "./habit/validate";
+import { createJournalValidator } from "./journal/validate";
+import { createTaskValidator } from "./task/validate";
 
 const client = new PrismaClient();
 
@@ -92,7 +94,7 @@ app.post("/updateHabit", async (req, res) => {
 
   const habit = await client.habit.update({
     where: {
-      habit_id: req.body.hid,
+      habit_id: hid,
     },
     data: {
       ...data,
@@ -100,6 +102,87 @@ app.post("/updateHabit", async (req, res) => {
   });
 
   return res.send(habit);
+});
+
+app.post("/addHabitReflection", async (req, res) => {
+  const data = createHabitReflectionValidator.safeParse({
+    ...req.body,
+    habit_id: req.body.habit_id,
+  });
+
+  if (!data.success) return res.status(400).send(data.error);
+
+  const reflection = await client.habitReflection.create({
+    data: {
+      ...data.data,
+    },
+  });
+
+  return res.send(reflection);
+});
+
+app.post("/updateHabitReflection", async (req, res) => {
+  let { hr_id, ...data } = req.body;
+
+  const reflection = await client.habitReflection.update({
+    where: {
+      hr_id: hr_id,
+    },
+    data: {
+      ...data,
+    },
+  });
+
+  return res.send(reflection);
+});
+
+app.post("/createJournal", async (req, res) => {
+  const user = getSession(req);
+
+  const data = createJournalValidator.safeParse({
+    ...req.body,
+    uid: user.uid,
+  });
+
+  if (!data.success) return res.status(400).send(data.error);
+
+  const journal = await client.journal.create({
+    data: {
+      ...data.data,
+    },
+  });
+
+  return res.send(journal);
+});
+
+app.post("/updateJournal", async (req, res) => {
+  const journal = await client.journal.update({
+    where: {
+      jid: req.body.jid,
+    },
+    data: {
+      ...req.body,
+    },
+  });
+
+  return res.send(journal);
+});
+
+app.post("/addTask", async (req, res) => {
+  const data = createTaskValidator.safeParse({
+    ...req.body,
+    habit_id: req.body.hid,
+  });
+
+  if (!data.success) return res.status(400).send(data.error);
+
+  const task = await client.task.create({
+    data: {
+      ...data.data,
+    },
+  });
+
+  return res.send(task);
 });
 
 app.get("/", (req, res) => res.sendStatus(200));
