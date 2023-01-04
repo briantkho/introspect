@@ -5,19 +5,19 @@ import type { Nullable } from "../utils/types";
  */
 
 export const TaskProps = {
-  tid: "tid",
-  hid: "habit_id",
+  task_id: "task_id",
+  habit_id: "habit_id",
   title: "title",
   description: "description",
-  checked: "checked",
+  status: "status",
   date: "date",
 } as const;
 
 export type CreateTaskType = {
-  [TaskProps.tid]: string;
-  [TaskProps.hid]: string;
+  [TaskProps.task_id]: string;
+  [TaskProps.habit_id]: string;
   [TaskProps.title]: string;
   [TaskProps.description]: Nullable<string>;
-  [TaskProps.checked]: boolean;
+  [TaskProps.status]: boolean;
   [TaskProps.date]?: string;
 };

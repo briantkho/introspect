@@ -5,7 +5,7 @@ import type { UserType } from "./user";
  * Type of a user session
  */
 export type UserSession = {
-  uid: string;
+  user_id: string;
   user_name: string;
   email: string;
 };
@@ -23,7 +23,7 @@ declare module "express-session" {
  */
 export const createSession = (user: UserType, req: Request): void => {
   const userSession: UserSession = {
-    uid: user.uid,
+    user_id: user.user_id,
     email: user.email,
     user_name: user.user_name,
   };

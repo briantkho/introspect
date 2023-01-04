@@ -2,25 +2,25 @@
  * Journal type
  */
 export type Journal = {
-  jid: string;
-  uid: string;
+  journal_id: string;
+  user_id: string;
   title: string | null;
   description: string;
   date: Date;
 };
 
 export const JournalTypeProps = {
-  jid: "jid",
-  uid: "uid",
+  journal_id: "journal_id",
+  user_id: "user_id",
   title: "title",
   description: "description",
   date: "date",
 } as const;
 
 export type CreateJournalType = {
-  [JournalTypeProps.jid]: string;
-  [JournalTypeProps.uid]: string;
+  [JournalTypeProps.journal_id]: string;
+  [JournalTypeProps.user_id]: string;
   [JournalTypeProps.title]: string;
   [JournalTypeProps.description]: string;
-  [JournalTypeProps.date]: string;
+  [JournalTypeProps.date]?: string;
 };

@@ -1,10 +1,10 @@
 import type { Nullable } from "../utils/types";
 
 export const HabitTypeProps = {
-  hid: "hid",
-  uid: "uid",
-  name: "name",
-  frequencyPerWeek: "frequency_per_week",
+  habit_id: "habit_id",
+  user_id: "user_id",
+  title: "name",
+  frequency_per_week: "frequency_per_week",
   description: "description",
   startDate: "start_date",
   endDate: "end_date",
@@ -12,8 +12,8 @@ export const HabitTypeProps = {
 } as const;
 
 export const HabitReflectionProps = {
-  hrid: "hrid",
-  hid: "habit_id",
+  habit_reflection_id: "habit_reflection_id",
+  habit_id: "habit_id",
   description: "description",
 } as const;
 
@@ -21,12 +21,12 @@ export const HabitReflectionProps = {
  * Create Habit type
  */
 export type CreateHabitType = {
-  [HabitTypeProps.hid]: string;
-  [HabitTypeProps.uid]: string;
-  [HabitTypeProps.name]: string;
-  [HabitTypeProps.frequencyPerWeek]: number;
-  [HabitTypeProps.description]: Nullable<string>;
-  [HabitTypeProps.startDate]: string;
+  [HabitTypeProps.habit_id]: string;
+  [HabitTypeProps.user_id]: string;
+  [HabitTypeProps.title]: string;
+  [HabitTypeProps.frequency_per_week]?: number;
+  [HabitTypeProps.description]?: string;
+  [HabitTypeProps.startDate]?: string;
   [HabitTypeProps.endDate]?: string;
   [HabitTypeProps.status]: number;
 };
@@ -35,10 +35,10 @@ export type CreateHabitType = {
  * Edit Habit Type
  */
 export type EditHabitType = {
-  [HabitTypeProps.hid]: string;
-  [HabitTypeProps.uid]: string;
-  [HabitTypeProps.name]: Nullable<string>;
-  [HabitTypeProps.frequencyPerWeek]: Nullable<number>;
+  [HabitTypeProps.habit_id]: string;
+  [HabitTypeProps.user_id]: string;
+  [HabitTypeProps.title]: Nullable<string>;
+  [HabitTypeProps.frequency_per_week]: Nullable<number>;
   [HabitTypeProps.description]: Nullable<string>;
   [HabitTypeProps.startDate]?: string;
   [HabitTypeProps.endDate]?: string;
@@ -58,7 +58,7 @@ export const StatusTypes = {
  * Habit reflection type
  */
 export type HabitReflectionType = {
-  [HabitReflectionProps.hrid]: string;
-  [HabitReflectionProps.hid]: string;
+  [HabitReflectionProps.habit_reflection_id]: string;
+  [HabitReflectionProps.habit_id]: string;
   [HabitReflectionProps.description]: string;
 };
