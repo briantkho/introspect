@@ -23,7 +23,7 @@ model User {
 model Habit {
   habit_id              String @id @default(cuid())
   user_id               String
-  name                 String
+  title                 String
   frequency_per_week    Float?
   description           String?
   start_date            DateTime @default(now())
