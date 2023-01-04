@@ -3,7 +3,7 @@ import type { Nullable } from "../utils/types";
 export const HabitTypeProps = {
   habit_id: "habit_id",
   user_id: "user_id",
-  title: "name",
+  title: "title",
   frequency_per_week: "frequency_per_week",
   description: "description",
   startDate: "start_date",
