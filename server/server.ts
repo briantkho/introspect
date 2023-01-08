@@ -34,13 +34,21 @@ app.use((req, res, next) => {
 });
 
 app.post("/signup", async (req, res) => {
+  const response = req.body;
+
+  const findUsers: UserType[] | undefined = await client.user.findMany({
+    where: { email: response.email },
+  });
+
+  if (findUsers.length > 0) throw new Error("Email already in use");
+
   const newUser: UserType = await client.user.create({
     data: {
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      user_name: req.body.user_name,
-      email: req.body.email,
-      password: req.body.password,
+      first_name: response.first_name,
+      last_name: response.last_name,
+      user_name: response.user_name,
+      email: response.email,
+      password: response.password,
     },
   });
 
