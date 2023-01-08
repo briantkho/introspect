@@ -96,6 +96,22 @@ app.post("/addGoal", async (req, res) => {
   return res.send(goal);
 });
 
+app.post("/updateGoal", async (req, res) => {
+  const { goal_id, ...data } = req.body;
+
+  const goal = await client.goal.update({
+    where: {
+      goal_id: goal_id,
+    },
+    data: {
+      ...data,
+      target_date: data.target_date ? new Date(data.target_date) : null,
+    },
+  });
+
+  return res.send(goal);
+});
+
 app.post("/addHabit", async (req, res) => {
   const user = getSession(req);
   const data = createHabitValidator.safeParse({
@@ -119,7 +135,7 @@ app.post("/addHabit", async (req, res) => {
 });
 
 app.post("/updateHabit", async (req, res) => {
-  let { habit_id, ...data } = req.body;
+  const { habit_id, ...data } = req.body;
 
   const habit = await client.habit.update({
     where: {
