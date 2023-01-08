@@ -19,9 +19,10 @@ export type CreateHabitReflectionParams = Omit<
 
 export const createHabitValidator: z.ZodType<CreateHabitParams> = z.object({
   [HabitTypeProps.user_id]: z.string(),
+  [HabitTypeProps.goal_id]: z.string().optional(),
   [HabitTypeProps.title]: z.string(),
   [HabitTypeProps.frequency_per_week]: z.number().optional(),
-  [HabitTypeProps.description]: z.string().optional(),
+  [HabitTypeProps.description]: z.string().nullable(),
   [HabitTypeProps.startDate]: z.string().optional(),
   [HabitTypeProps.endDate]: z.string().optional(),
   [HabitTypeProps.status]: z.number(),

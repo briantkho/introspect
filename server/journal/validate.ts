@@ -8,6 +8,7 @@ export type CreateJournalParams = Omit<
 
 export const createJournalValidator: z.ZodType<CreateJournalParams> = z.object({
   [JournalTypeProps.user_id]: z.string(),
+  [JournalTypeProps.goal_id]: z.string().optional(),
   [JournalTypeProps.title]: z.string(),
   [JournalTypeProps.description]: z.string(),
   [JournalTypeProps.date]: z.string().optional(),
