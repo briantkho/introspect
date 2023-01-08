@@ -8,6 +8,5 @@ export type CreateReminderParams = Omit<
 
 export const createReminderValidator: z.ZodType<CreateReminderParams> =
   z.object({
-    [ReminderProps.habit_id]: z.string(),
     [ReminderProps.reminderTime]: z.string(),
   });

@@ -16,13 +16,27 @@ model User {
   user_name      String @unique
   email          String @unique
   password       String
+  goals          Goal[]
   habits         Habit[]
   journals       Journal[]
+}
+
+model Goal {
+  goal_id       String @id @default(cuid())
+  user_id       String
+  title         String
+  description   String?
+  target_date   DateTime?
+  status        Int
+  user          User @relation(fields: [user_id], references: [user_id])
+  habits        Habit[]
+  journals      Journal[]
 }
 
 model Habit {
   habit_id              String @id @default(cuid())
   user_id               String
+  goal_id               String?
   title                 String
   frequency_per_week    Float?
   description           String?
@@ -30,6 +44,7 @@ model Habit {
   end_date              DateTime?
   status                Int
   user                  User @relation(fields: [user_id], references: [user_id])
+  goal                  Goal? @relation(fields: [goal_id], references: [goal_id])
   item_reminder         ItemReminder[]
   habit_reflection      HabitReflection[]
   task                  Task[]
@@ -39,9 +54,9 @@ model ItemReminder{
   item_reminder_id     String @id @default(cuid())
   reminder_id          String
   habit_id             String
-  task_id              String
+  task_id              String?
   habit                Habit @relation(fields: [habit_id], references: [habit_id])
-  task                 Task @relation(fields: [task_id], references: [task_id])
+  task                 Task? @relation(fields: [task_id], references: [task_id])
 }
 model Reminder {
   reminder_id        String @id @default(cuid())
@@ -58,10 +73,12 @@ model HabitReflection {
 model Journal {
   journal_id       String @id @default(cuid())
   user_id          String
+  goal_id          String?
   title            String
   description      String
   date             DateTime? @default(now())
   user             User @relation(fields: [user_id], references: [user_id])
+  goal             Goal? @relation(fields: [goal_id], references: [goal_id])
 }
 
 model Task {
@@ -70,6 +87,7 @@ model Task {
   title             String
   description       String?
   status            Boolean
+  priority          Int
   date              DateTime?
   habit             Habit @relation(fields: [habit_id], references: [habit_id])
   item_reminder     ItemReminder[]

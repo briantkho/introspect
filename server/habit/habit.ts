@@ -46,15 +46,6 @@ export type EditHabitType = {
 };
 
 /**
- * Status Type Enum
- */
-export const StatusTypes = {
-  todo: 0,
-  inProgress: 1,
-  complete: 2,
-} as const;
-
-/**
  * Habit reflection type
  */
 export type HabitReflectionType = {

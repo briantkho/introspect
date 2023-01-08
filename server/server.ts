@@ -11,6 +11,7 @@ import {
 import { createJournalValidator } from "./journal/validate";
 import { createTaskValidator } from "./task/validate";
 import { createReminderValidator } from "./reminder/validate";
+import { createGoalValidator } from "./goal/validate";
 
 const client = new PrismaClient();
 
@@ -74,12 +75,34 @@ app.post("/signout", (req, res) => {
   });
 });
 
+app.post("/addGoal", async (req, res) => {
+  const user = getSession(req);
+  const data = createGoalValidator.safeParse({
+    ...req.body,
+    user_id: user.user_id,
+  });
+
+  if (!data.success) return res.status(400).send(data.error);
+
+  const goal = await client.goal.create({
+    data: {
+      ...data.data,
+      target_date: data.data.target_date
+        ? new Date(data.data.target_date)
+        : null,
+    },
+  });
+
+  return res.send(goal);
+});
+
 app.post("/addHabit", async (req, res) => {
   const user = getSession(req);
   const data = createHabitValidator.safeParse({
     ...req.body,
     user_id: user.user_id,
   });
+
   if (!data.success) return res.status(400).send(data.error);
 
   const habit = await client.habit.create({
@@ -176,22 +199,22 @@ app.post("/updateJournal", async (req, res) => {
   return res.send(journal);
 });
 
-app.post("/addTask", async (req, res) => {
-  const data = createTaskValidator.safeParse({
-    ...req.body,
-    habit_id: req.body.habit_id,
-  });
+// app.post("/addTask", async (req, res) => {
+//   const data = createTaskValidator.safeParse({
+//     ...req.body,
+//     habit_id: req.body.habit_id,
+//   });
 
-  if (!data.success) return res.status(400).send(data.error);
+//   if (!data.success) return res.status(400).send(data.error);
 
-  const task = await client.task.create({
-    data: {
-      ...data.data,
-    },
-  });
+//   const task = await client.task.create({
+//     data: {
+//       ...data.data,
+//     },
+//   });
 
-  return res.send(task);
-});
+//   return res.send(task);
+// });
 
 app.post("/updateTask", async (req, res) => {
   let { task_id, ...data } = req.body;
@@ -208,8 +231,10 @@ app.post("/updateTask", async (req, res) => {
 });
 
 app.post("/addReminder", async (req, res) => {
+  const { habit_id, task_id, ...restData } = req.body;
+
   const data = createReminderValidator.safeParse({
-    ...req.body,
+    ...restData,
   });
 
   if (!data.success) return res.status(400).send(data.error);
@@ -220,7 +245,15 @@ app.post("/addReminder", async (req, res) => {
     },
   });
 
-  return res.send(reminder);
+  const itemReminder = await client.itemReminder.create({
+    data: {
+      habit_id: habit_id,
+      task_id: task_id,
+      reminder_id: reminder.reminder_id,
+    },
+  });
+
+  res.send(itemReminder);
 });
 
 app.get("/", (req, res) => res.sendStatus(200));

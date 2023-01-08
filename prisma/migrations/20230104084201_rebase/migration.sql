@@ -26,9 +26,9 @@ CREATE TABLE "ItemReminder" (
     "item_reminder_id" TEXT NOT NULL PRIMARY KEY,
     "reminder_id" TEXT NOT NULL,
     "habit_id" TEXT NOT NULL,
-    "task_id" TEXT NOT NULL,
+    "task_id" TEXT,
     CONSTRAINT "ItemReminder_habit_id_fkey" FOREIGN KEY ("habit_id") REFERENCES "Habit" ("habit_id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "ItemReminder_task_id_fkey" FOREIGN KEY ("task_id") REFERENCES "Task" ("task_id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "ItemReminder_task_id_fkey" FOREIGN KEY ("task_id") REFERENCES "Task" ("task_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
