@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import session from "express-session";
 
 import { createSession, getSession } from "./session";
-import type { UserType } from "./user";
+import type { UserType } from "./user/user";
 import {
   createHabitReflectionValidator,
   createHabitValidator,
@@ -223,22 +223,21 @@ app.post("/updateJournal", async (req, res) => {
   return res.send(journal);
 });
 
-// app.post("/addTask", async (req, res) => {
-//   const data = createTaskValidator.safeParse({
-//     ...req.body,
-//     habit_id: req.body.habit_id,
-//   });
+app.post("/addTask", async (req, res) => {
+  const data = createTaskValidator.safeParse({
+    ...req.body,
+  });
 
-//   if (!data.success) return res.status(400).send(data.error);
+  if (!data.success) return res.status(400).send(data.error);
 
-//   const task = await client.task.create({
-//     data: {
-//       ...data.data,
-//     },
-//   });
+  const task = await client.task.create({
+    data: {
+      ...data.data,
+    },
+  });
 
-//   return res.send(task);
-// });
+  return res.send(task);
+});
 
 app.post("/updateTask", async (req, res) => {
   let { task_id, ...data } = req.body;
@@ -282,4 +281,5 @@ app.post("/addReminder", async (req, res) => {
 
 app.get("/", (req, res) => res.sendStatus(200));
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+export default module.exports = app;

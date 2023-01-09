@@ -1,5 +1,5 @@
 import type { Request } from "express";
-import type { UserType } from "./user";
+import type { UserType } from "./user/user";
 
 /**
  * Type of a user session

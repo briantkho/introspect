@@ -9,8 +9,9 @@ export const TaskProps = {
   habit_id: "habit_id",
   title: "title",
   description: "description",
-  status: "status",
   date: "date",
+  priority: "priority",
+  status: "status",
 } as const;
 
 export type CreateTaskType = {
@@ -18,6 +19,7 @@ export type CreateTaskType = {
   [TaskProps.habit_id]: string;
   [TaskProps.title]: string;
   [TaskProps.description]: Nullable<string>;
-  [TaskProps.status]: boolean;
   [TaskProps.date]?: string;
+  [TaskProps.priority]: number;
+  [TaskProps.status]: boolean;
 };
