@@ -9,16 +9,29 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "Goal" (
+    "goal_id" TEXT NOT NULL PRIMARY KEY,
+    "user_id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "target_date" DATETIME,
+    "status" INTEGER NOT NULL,
+    CONSTRAINT "Goal_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "Habit" (
     "habit_id" TEXT NOT NULL PRIMARY KEY,
     "user_id" TEXT NOT NULL,
+    "goal_id" TEXT,
     "title" TEXT NOT NULL,
     "frequency_per_week" REAL,
     "description" TEXT,
     "start_date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "end_date" DATETIME,
     "status" INTEGER NOT NULL,
-    CONSTRAINT "Habit_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Habit_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Habit_goal_id_fkey" FOREIGN KEY ("goal_id") REFERENCES "Goal" ("goal_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -49,10 +62,12 @@ CREATE TABLE "HabitReflection" (
 CREATE TABLE "Journal" (
     "journal_id" TEXT NOT NULL PRIMARY KEY,
     "user_id" TEXT NOT NULL,
+    "goal_id" TEXT,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "date" DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "Journal_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Journal_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Journal_goal_id_fkey" FOREIGN KEY ("goal_id") REFERENCES "Goal" ("goal_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -62,6 +77,7 @@ CREATE TABLE "Task" (
     "title" TEXT NOT NULL,
     "description" TEXT,
     "status" BOOLEAN NOT NULL,
+    "priority" INTEGER NOT NULL,
     "date" DATETIME,
     CONSTRAINT "Task_habit_id_fkey" FOREIGN KEY ("habit_id") REFERENCES "Habit" ("habit_id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

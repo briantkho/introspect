@@ -1,4 +1,3 @@
-
 datasource db {
   provider = "sqlite"
   url      = "file:./nextUp.db"
@@ -92,5 +91,3 @@ model Task {
   habit             Habit @relation(fields: [habit_id], references: [habit_id])
   item_reminder     ItemReminder[]
 }
-
-
