@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { CreateReminderType, ReminderProps } from "./reminder";
+import { z } from 'zod';
+import { CreateReminderType, ReminderProps } from './reminderType';
 
 export type CreateReminderParams = Omit<
   CreateReminderType,

@@ -12,7 +12,10 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "lib": [
+        "es5", "es6", "dom", "dom.iterable"
+    ]
   },
   "include": ["server/**/*"],
   "exclude": ["node_modules", "build", "prisma", "client/**/*"]

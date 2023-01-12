@@ -1,5 +1,5 @@
-import type { Request } from "express";
-import type { UserType } from "./user/user";
+import type { Request } from 'express';
+import type { UserType } from './user/userType';
 
 /**
  * Type of a user session
@@ -10,7 +10,7 @@ export type UserSession = {
   email: string;
 };
 
-declare module "express-session" {
+declare module 'express-session' {
   interface SessionData {
     user?: UserSession;
   }
@@ -35,6 +35,6 @@ export const getSession = (req: Request): UserSession => {
   if (req.session.user) {
     return req.session.user;
   } else {
-    throw new Error("No user found");
+    throw new Error('No user found');
   }
 };

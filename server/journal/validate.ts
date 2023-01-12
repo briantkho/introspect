@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { CreateJournalType, JournalTypeProps } from "./journal";
+import { z } from 'zod';
+import { CreateJournalType, JournalTypeProps } from './journalType';
 
 export type CreateJournalParams = Omit<
   CreateJournalType,

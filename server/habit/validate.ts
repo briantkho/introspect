@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 import {
   CreateHabitType,
   EditHabitType,
   HabitReflectionProps,
   HabitReflectionType,
   HabitTypeProps,
-} from "./habit";
+} from './habitType';
 
 export type CreateHabitParams = Omit<
   CreateHabitType,
@@ -22,7 +22,7 @@ export const createHabitValidator: z.ZodType<CreateHabitParams> = z.object({
   [HabitTypeProps.goal_id]: z.string().optional(),
   [HabitTypeProps.title]: z.string(),
   [HabitTypeProps.frequency_per_week]: z.number().optional(),
-  [HabitTypeProps.description]: z.string().nullable(),
+  [HabitTypeProps.description]: z.string().optional(),
   [HabitTypeProps.startDate]: z.string().optional(),
   [HabitTypeProps.endDate]: z.string().optional(),
   [HabitTypeProps.status]: z.number(),
