@@ -1,17 +1,19 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
-
-  "include": ["src/**/*", "/**/*.ts"],
-  "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
-
   "compilerOptions": {
-    "rootDirs": ["src", "server"],
+    "target": "ES6",
+    "rootDir": "server",
     "baseUrl": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
     "outDir": "build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true
-  }
+  },
+  "include": ["server/**/*"],
+  "exclude": ["node_modules", "build", "prisma", "client/**/*"]
 }
